@@ -23,11 +23,17 @@ session_start();
     <title><?php echo $g_website_name.' '; ?></title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/dashboard/">
+    <script src="../javascripts/jquery-3.6.0.min.js"></script> 
+    <script>
+      const notifications_box = document.querySelector('.notifications-box');
+
+    </script>
 
     
 
     <!-- Bootstrap core CSS -->
 <link href="../css/bootstrap.min.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
 
     <style>
       .bd-placeholder-img {
@@ -140,4 +146,35 @@ session_start();
         </ul>
       </div>
     </nav>
+    <div class="notifications-box-cnt">
+      <div class="alert alert-info alert-dismissible fade show"> HEllo <button type="button" class="btn-close noti-btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>
+    </div>
+
+    <script>
+      
+      const notificationbox = document.querySelector('.notifications-box-cnt');
+      const notification_close_btn = document.querySelectorAll('.noti-btn-close');
+      const notificationAdd = (message, noti_type = 'alert-info') => {
+        const new_notification = document.createElement("div");
+        const notification_close_btn = document.createElement("button");
+        new_notification.className = `alert alert-dismissible fade show ${noti_type}`;
+        notification_close_btn.className = `btn-close noti-btn-close`;
+        notification_close_btn.dataset.bsDismiss = `alert`;
+        let node = document.createTextNode(message);
+        new_notification.appendChild(node);
+        
+        new_notification.appendChild(node);
+        new_notification.appendChild(notification_close_btn);
+
+        
+        notificationbox.appendChild(new_notification);
+      }
+      Array.prototype.forEach.call(notification_close_btn, elem => {
+        setTimeout(() => {
+          elem.click();
+          console.log('hello');
+        }, 2000)
+      });
+    </script>
+    
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">

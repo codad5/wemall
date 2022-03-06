@@ -1,10 +1,15 @@
 <?php
     function validate_input(Array $inputs) {
         $return_array = ['validate' => true];
+        $return_array['error_msg'] = null;
+        $i = 0;
         foreach ($inputs as $input => $value) {
-            if ($value === false) {
+            $i++;
+            if ($value == false) {
                 $return_array['validate'] = false;
+                $return_array['error_msg'] = $inputs[$i];
                 $return_array[$input] = $value;
+                
                 # code...
             }
             else{
@@ -40,7 +45,7 @@
                 # code...
                 break;
             
-            default:
+            
             case 'percentage':
                 if($product_discount > 100){
                     return ['validate' =>false, 'error_msg' => 'Discount can not be greater than 100'];
@@ -48,8 +53,10 @@
                 $price_cut = $product_discount / 100;
                 $price_cut = $price_cut * $product_price;
                 $sell_price = $product_price - $price_cut;
-
+                
                 break;
+                default:
+                
                 # code...
                 break;
         }
@@ -60,7 +67,7 @@
         
         if(count($image['name']) <= 0 || empty($image['name'][0])){
             // echo 'meme<br>';
-            header("location:../product.php?error=noimage");
+            header("location:../product.php?error=no-image");
             exit;
         }
         $img = [];
@@ -145,4 +152,20 @@
 
         }
         return $file_names_array;
+    }
+
+    function areAvailable($globalVariableName, $needArray) {
+        
+        
+        if(isset($globalVariableName)){
+
+            
+            foreach ($needArray as $item) {
+                if(!isset($globalVariableName[$item])){
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }

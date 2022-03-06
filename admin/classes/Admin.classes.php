@@ -41,4 +41,84 @@
         }
 
      }
+
+     public function delete_product($product_id){
+         $sql = "UPDATE products set active_status = ? where product_id = ?;";
+         $stmt= $this->connect()->prepare($sql);
+         $stmt_status = $stmt->execute(['deleted', $product_id]);
+         if(!$stmt_status){
+             return false;
+         }
+         else{
+             return true;
+         }
+     }
+
+     public function get_product($product_id){
+         $sql = "SELECT * FROM products WHERE product_id = ? LIMIT 1";
+         $stmt = $this->connect()->prepare($sql);
+         $stmt_status = $stmt->execute([$product_id]);
+         if(!$stmt_status){
+             return false;
+
+         }
+         elseif($stmt->rowCount() > 0) {
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+         }
+         else{
+             return false;
+         }
+
+     }
+
+    public function editProduct(Array $edit_array,  $product_id){
+        if($this->get_product($product_id) == false){
+            return false;
+        }
+        
+        $total_delivery = $this->get_product($product_id)[0]['total_delivery'];
+        $new_quantity_left = $edit_array['edit_quantity'];
+        $new_quantity_added = $new_quantity_left - $total_delivery;
+        $edit_array['edit_quantity'] = $new_quantity_added;
+        
+        // var_dump($edit_array);
+        // echo "<br>".__LINE__ ;
+        // echo "<br>".__LINE__ ;
+        // echo "<br>";
+        // var_dump(rsort($edit_array));
+        // $numbers = array(4, 6, 2, 22, 11);
+        // echo sort($numbers);
+        
+
+
+        $sql = "UPDATE `products`
+                SET `product_name` = ?,
+                    `product_size` = ?,
+                    `product_gender` = ?,
+                    `product_category` = ?,
+                    `product_price` = ?,
+                    `product_discount` = ?,
+                    `discount_method` = ?,
+                    `product_quantity` = ?,
+              WHERE `product_id` = ? ;";
+    
+        $stmt= $this->attachDb()->prepare($sql);
+         $stmt_status = $stmt->execute([$edit_array['edit_name'],
+                                        $edit_array['edit_size'],
+                                        $edit_array['edit_gender'],
+                                        $edit_array['edit_category'],
+                                        $edit_array['edit_price'],
+                                        $edit_array['edit_discount'],
+                                        $edit_array['edit_discount_method'],
+                                        $edit_array['edit_quantity'],
+                                        $product_id
+                                        ]);
+         if(!$stmt_status){
+             return false;
+         }
+         else{
+             return true;
+         }
+
+    }
  }

@@ -12,7 +12,7 @@
         <div class="accordion" id="accordionExample">
           <div class="accordion-item">
             <h4 class="accordion-header" id="headingOne">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+              <button class="accordion-button collapsed" type="button" id="accordion_add_product_btn" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                Add New Product
               </button>
             </h4>
@@ -27,24 +27,24 @@
       <div>
         <div class="bd-example">
         <form class="row g-3" id='add_product' action="inc/add-product.inc.php" method='post' enctype="multipart/form-data">
-          <div class="col-md-4">
-            <label for="validationServer01" class="form-label">Product name</label>
-            <input type="text" class="form-control" name='product_name' id="validationServer01" value="Mark" required="">
-            <div class="valid-feedback">
-              Looks good!
+          <div class="col-md-4" id="product_name_cnt">
+            <label for="product_name" class="form-label">Product name</label>
+            <input type="text" class="form-control  " name='product_name' id="product_name"  >
+            <div class="invalid-feedback">
+              This field is required
             </div>
           </div>
-          <div class="col-md-4">
-            <label for="validationServer02" class="form-label">Product Size</label>
-            <input type="text" class="form-control" name="product_size" id="validationServer02" value="Otto" required="">
-            <div class="valid-feedback">
-              Looks good!
+          <div class="col-md-4" id="product_size_cnt">
+            <label for="product_size" class="form-label">Product Size</label>
+            <input type="text" class="form-control" name="product_size" id="product_size"  >
+            <div class="invalid-feedback">
+              This field is required
             </div>
           </div>
           
-          <div class="col-md-5">
-            <label for="validationServer03" class="form-label">Category : use comma to separate</label>
-            <input type="text" class="form-control" id="validationServer03" name='product_category'>
+          <div class="col-md-5" id="product_category_cnt">
+            <label for="product_category" class="form-label">Category : use comma to separate</label>
+            <input type="text" class="form-control" id="product_category" name='product_category'>
             <div class="invalid-feedback">
               Please provide a valid city.
             </div>
@@ -59,9 +59,9 @@
               Please select a valid state.
             </div>
           </div> -->
-          <div class="col-md-4">
-            <label for="validationServer05" class="form-label">Price</label>
-            <input type="Number" class="form-control" name='product_price' id="validationServer05" required="">
+          <div class="col-md-4" id="product_price_cnt">
+            <label for="product_price" class="form-label">Price</label>
+            <input type="Number" class="form-control" name='product_price' id="product_price" required="">
             <div class="invalid-feedback">
               Invalid Price
             </div>
@@ -76,17 +76,17 @@
               <input type="radio" name="discount_method" value="price_cut" class="form-check-input" id="exampleRadio2">
               <label class="form-check-label" for="exampleRadio2">Price Cut</label>
             </div>
-            <div class="col-md-3">
-            <label for="validationServer05" class="form-label">Discount</label>
-            <input type="text" class="form-control" id="validationServer05" name="product_discount" value='0'>
+            <div class="col-md-3" id="product_discount_cnt">
+            <label for="product_discount" class="form-label">Discount</label>
+            <input type="text" class="form-control" id="product_discount" name="product_discount" value='0'>
             <div class="invalid-feedback">
               Please provide a valid zip.
             </div>
             
           </fieldset>
-          <div class="col-md-3">
-            <label for="validationServer05" class="form-label">Quantity Added</label>
-            <input type="number" class="form-control " id="validationServer05" required="" min='0' name='product_quantity'>
+          <div class="col-md-3" id="product_quantity_cnt">
+            <label for="product_quantity" class="form-label">Quantity Added</label>
+            <input type="number" class="form-control " id="product_quantity" required="" min='0' name='product_quantity'>
             <div class="invalid-feedback">
               Please provide a valid zip.
             </div>
@@ -145,7 +145,7 @@
           </div>
           <div class="accordion-item">
             <h4 class="accordion-header" id="headingTwo">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              <button class="accordion-button collapsed" id='product_table' type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                 All Products
               </button>
             </h4>
@@ -165,30 +165,11 @@
                         <th>Delete</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="product_table_body">
                         <?php
-                            $product = $admin->getProduct();
-                            // var_dump($product);
-                            $n = 0;
-                            foreach ($product as $item) {
-                                $n++;
-
-                                    $sell_price_data = gen_sell_price($item['product_price'], $item['product_discount'], $item['discount_method']);
-                                    $sell_price = $sell_price_data['validate'];
-
-                                    echo "<tr>
-                                            <td>".$n."</td>
-                                            <td>".$item['product_name']."</td>
-                                            <td>".$item['product_price']."</td>
-                                            <td>".$sell_price."</td>
-                                            <td>".$item['product_quantity']."</td>
-                                            <td>".$item['addedby']."</td>
-                                            <td><button type='button' class='btn btn-primary'>EDIT</button></td>
-                                            <td><button type='button' class='btn btn-danger'>DELETE</button></td>
-                                        </tr>";
-                                
-                            }
+                          include_once 'inc/productTable.inc.php';
                         ?>
+                        
                         
                     </tbody>
                     </table>
@@ -198,13 +179,15 @@
           </div>
           <div class="accordion-item">
             <h4 class="accordion-header" id="headingThree">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+              <button class="accordion-button collapsed" id='product_edit' type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                 Edit Product
               </button>
             </h4>
-            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-              <div class="accordion-body">
-                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+            <div id="collapseThree" class="accordion-collapse collapse"  aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+              <div class="accordion-body" id="edit_product_cnt">
+                <?php
+                          include_once 'inc/edit-product.inc.php';
+                        ?>
               </div>
             </div>
           </div>
@@ -212,10 +195,74 @@
         </div>
       </div>
 </section>
+<script>
+                          const product_elements_edit = document.querySelectorAll('.alter_product_btn');
+                          const product_elements_edit_btn = document.querySelectorAll('.edit_product_btn');
+                          let product_id= null, action = null;
+                          Array.prototype.forEach.call(product_elements_edit, elem => {
+                            elem.addEventListener('click', (e) => {
+                              console.log(elem.dataset);
+                              product_id = elem.dataset.productId;
+                              action = elem.dataset.productAction;
+                            });
+                          })
+                          
+
+                          $(document).ready(function() {
+                          var searchcount = 10;
+                          $(".delete_product_btn").click(function(event) {
+                            // product_id = $(".edit_product_btn");
+                              console.log(product_id);
+                              
+                              if(product_id !== null && action != null && confirm("Are you sure you want to proceed ?")){
+
+                                $(".product_table_body").load("inc/productTable.inc.php", {
+                                  product_id:product_id,
+                                  action: action
+                                });
+                                
+                              }
+                              else{
+                               
+                              }
+                          });
+                         
+                          $(".edit_product_btn").click(function(event) {
+                            document.querySelector('#product_table').click();
+                              
+                              setTimeout(() => {
+                                document.querySelector('#product_edit').click();
+
+                              }, 500)
+                            // product_id = $(".edit_product_btn");
+                              
+                              
+                              if(product_id !== null && action != null){
+                                
+                                $("#edit_product_cnt").load("inc/edit-product.inc.php", {
+                                  product_id:product_id,
+                                  action: action
+                                });
+                                
+                              }
+                              else{
+                                
+                              }
+                          });
+                      });
+                        </script>
     <script>
         let file_input = document.getElementById('product_image');
         let add_product = document.querySelector('#add_product');
+        let edit_product_btn = document.querySelector('.edit_product_btn');
         let valid = true;
+
+        // edit_product_btn.addEventListener('click', () => {
+        //   console.log('edit_product_btn');
+        //   document.querySelector('#product_table').click();
+        //   document.querySelector('#product_edit').click();
+
+        // })
         add_product.addEventListener('submit', (e) => {
             e.preventDefault();
             Array.prototype.forEach.call(add_product, elem => {

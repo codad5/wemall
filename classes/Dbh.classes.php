@@ -6,6 +6,62 @@
         private $pwd= "";
         private $dbName= "currencynet";
 
+        public function __construct(){
+            try{
+                $this->connect();
+                
+            }catch(PDOException $e){
+                
+                $message = "SQLSTATE[HY000] [1049] Unknown database '".$this->dbName."'";
+                echo $e->getMessage() === $message;
+                
+                if($e->getMessage() === $message){
+                    
+                    // $this>prepareDbConnection();
+                    $conn = new mysqli($this->host, $this->user, $this->pwd);
+                        // Check connection     
+                    
+                        if ($conn->connect_error) {
+                            die("Connection failed: " . $conn->connect_error);
+                        }
+                        
+                        // Create database
+                        $sql = "CREATE DATABASE ".$this->dbName.";";
+                        
+                    
+                        if ($conn->query($sql) === TRUE) {
+                           
+                            
+                        
+                        $this->initializeDb();
+                        } else {
+                            
+                            
+                        
+                            exit();
+                        }
+
+                        $conn->close();
+
+                }else {
+                        
+                            exit();
+                        }
+                
+
+            }
+        }
+
+        protected function initializeDb(){
+        require_once "sql.php";
+        $stmt = $this->connect()->prepare($setup_sql);
+        if(!$stmt->execute(array())){
+            $stmt = null;
+            return false;
+
+        }
+    }
+
         protected function connect() {
             $dsn = 'mysql:host='.$this->host.';dbname='.$this->dbName;
             $pdo = new PDO($dsn, $this->user, $this->pwd);

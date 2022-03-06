@@ -1,0 +1,7 @@
+.notifications-box-cnt{
+    position:fixed;
+    z-index: 1000000;
+    width:clamp(200px, 90vw, 500px);
+    right:20px;
+
+}

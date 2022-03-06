@@ -9,27 +9,27 @@
     require_once 'function.inc.php';
     $admin = new Admin($_SESSION['admin_id']);
     if(empty($_POST['product_name'])){
-      header('Location:../product.php?error=emptyField&target=name');
+      header('Location:../product.php?error=empty-Field&target=product_name');
       exit;
     }
     if(empty($_POST['product_size'])){
-      header('Location:../product.php?error=emptyField&target=size');
+      header('Location:../product.php?error=empty-Field&target=product_size');
       exit;
     }
     if(empty($_POST['product_price'])){
-      header('Location:../product.php?error=emptyField&target=price');
+      header('Location:../product.php?error=empty-Field&target=product_price');
       exit;
     }
     if(empty($_POST['product_quantity'])){
-      header('Location:../product.php?error=emptyField&target=quantity');
+      header('Location:../product.php?error=empty-Field&target=product_quantity');
       exit;
     }
     if(!isset($_POST['gender'])){
-      header('Location:../product.php?error=nogender&target=quantity');
+      header('Location:../product.php?error=no-gender&target=gender');
       exit;
     }
     if(!isset($_POST['discount_method'])){
-      header('Location:../product.php?error=discountmethodmissing&target=quantity');
+      header('Location:../product.php?error=discount-method-missing&target=discount_method');
       exit;
     }
     $product_name = filter_var($_POST['product_name'], FILTER_SANITIZE_STRING);
@@ -56,7 +56,8 @@
     var_dump($product_image);
     if($validate_input['validate'] == false){
         
-        header('Location:../product.php?error=invalidInput&validate_array='.$validate_input);
+        header('location:../product.php?error=invalid-Input&target=&validate_array='.$validate_input['error_msg']);
+        exit;
 
     }
     // to generate perm_link
@@ -67,8 +68,9 @@
 
     $sell_price_data = gen_sell_price($product_price, $product_discount, $discount_method);
     $sell_price = $sell_price_data['validate'];
-    if($sell_price === false){
-        header('Location:../product.php?error=invalidDiscount&errormsg='.$sell_price_data['error_msg']);
+    if($sell_price == false){
+        header('location:../product.php?error=invalid-Discount&errormsg='.$sell_price_data['error_msg']);
+        exit;
     }
     echo "<br/>".$sell_price;
     

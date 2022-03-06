@@ -6,6 +6,65 @@
         private $pwd= "";
         private $dbName= "wemall";
 
+        public function __construct(){
+            try{
+                $this->connect();
+                
+            }catch(PDOException $e){
+                
+                $message = "SQLSTATE[HY000] [1049] Unknown database '".$this->dbName."'";
+                echo $e->getMessage() === $message;
+                
+                if($e->getMessage() === $message){
+                    
+                    // $this>prepareDbConnection();
+                    $conn = new mysqli($this->host, $this->user, $this->pwd);
+                        // Check connection     
+                    
+                        if ($conn->connect_error) {
+                            die("Connection failed: " . $conn->connect_error);
+                        }
+                        
+                        // Create database
+                        $sql = "CREATE DATABASE ".$this->dbName.";";
+                        
+                    
+                        if ($conn->query($sql) === TRUE) {
+                           
+                            
+                        
+                        $this->initializeDb();
+                        } else {
+                            
+                            
+                        
+                            exit();
+                        }
+
+                        $conn->close();
+
+                }else {
+                        
+                            exit();
+                        }
+                
+
+            }
+        }
+
+        protected function initializeDb(){
+        require_once "sql.php";
+        $stmt = $this->connect()->prepare($setup_sql);
+        if(!$stmt->execute(array())){
+            $stmt = null;
+            return false;
+
+        }
+    }
+
+    public function attachDb(){
+        return $this->connect();
+    }
         protected function connect() {
             $dsn = 'mysql:host='.$this->host.';dbname='.$this->dbName;
             $pdo = new PDO($dsn, $this->user, $this->pwd);
@@ -34,35 +93,20 @@
 
     }
     
-    protected function checkWebsite($domain){
-        $stmt = $this->connect()->prepare("SELECT * FROM websites WHERE website_domain  = ?;");
-        if(!$stmt->execute(array($domain))){
-            $stmt = null;
-            header("location: ../index.php?error=stmtfailed");
-            exit();
+    
+    public function getProduct($refrence = null, $bol = false){
+        $additional_sql = "WHERE active_status <> 'deleted' ;";
+        if($bol == true){
+            $additional_sql = ";";
 
         }
-        // return $stmt->rowCount();
-        if($stmt->rowCount() < 1){
-            // echo $stmt->rowCount();
-            return  false; #$stmt->rowCount();
-            
-        }
-        else{
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-            // return false;
-        }
-       
-
-    }
-    public function getProduct($refrence = null){
         switch ($refrence) {
             case 'value':
                 # code...
                 break;
                 
                 default:
-                $sql = "SELECT * FROM products;";
+                $sql = "SELECT * FROM products ".$additional_sql;
                 # code...
                 break;
         }
