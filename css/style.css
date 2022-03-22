@@ -1,0 +1,88 @@
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+
+ html, body, main, header, footer{
+     width:100vw;
+     position:relative;
+     /* overflow-x:hidden; */
+ }
+
+.header_nav{
+    width:100%;
+}
+
+.hero_carousel_body{
+    height:300px;
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+}
+
+.hero_carousel_cnt{
+    width:clamp(600px, 85%, 100vw);
+    height: 85%;
+    background:#555;
+}
+.second_level_feature_body {
+    width:100%;
+    height:max-content;
+    display: flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    align-items:center;
+    padding:30px 0;
+    position:relative;
+    
+
+}
+
+.second_level_feature_body::after{
+    position:absolute;
+    top:0;
+    left:0;
+    content:'Lets See what You gonna Like';
+    width:100%;
+    padding:0 20px;
+}
+
+.second_level_feature_box{
+    height: 170px;
+    width:clamp(250px, 50%, 350px);
+    background:#555;
+    margin:6px 5px;
+}
+
+.third_level_feature_body{
+    width:100%;
+    height:max-content;
+    display: grid;
+    flex-wrap:wrap;
+    justify-content:center;
+    align-items:center;
+    padding:30px 0;
+    position:relative;
+    grid-template-columns: repeat(4, clamp(100px, 22%, 300px));
+    grid-template-rows: repeat(1, 150px);
+    grid-gap:15px;
+}
+
+.third_level_feature_body::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: 'Categorys';
+    width: 100%;
+    padding: 0 20px;
+}
+
+.third_level_feature_box{
+    background: #555;
+    width:100%;
+    height:100%;
+}

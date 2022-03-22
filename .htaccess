@@ -1,0 +1,48 @@
+# mod_rewrite starts here 
+
+RewriteEngine on
+
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# RewriteCond %{REQUEST_FILENAME} !-f
+
+RewriteRule ^api/([0-9a-zA-Z_-]+)/([0-9a-zA-Z_-]+)/(.*)$  api/index.php?base=$1&filter=$2&keyword=$3 [NC,L]
+
+RewriteCond %{REQUEST_FILENAME}  !-d
+
+RewriteCond %{REQUEST_FILENAME}\.php  -f
+
+RewriteRule ^adsowner/login/([0-9a-zA-Z_-]+)  adsowner/index.php?error=$1 [NC,L]
+
+# does not apply to existing directories
+
+# this is for the api url rewrite 
+
+
+RewriteCond %{REQUEST_FILENAME}  !-d
+
+RewriteCond %{REQUEST_FILENAME}\.php  -f
+
+RewriteRule ^api/  api.php/dbh.classes.php?prdid=nonenn [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+
+#if file not in server dont go ahead 
+
+RewriteCond %{REQUEST_FILENAME}\.php -f
+
+#HEre is to show the page with .php extension
+
+RewriteRule ^(.*)$ $1.php [NC,L]
+
+
+# RewriteCond %{REQUEST_FILENAME} !-d
+
+# #if file not in server dont go ahead 
+
+# RewriteCond %{REQUEST_FILENAME}\.php !-f
+
+# #HEre is to show the page with .php extension
+
+# RewriteRule ^(.*)$ 404.php [NC,L]
+

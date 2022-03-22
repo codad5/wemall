@@ -71,6 +71,10 @@
 
      }
 
+     public function product_changes(){
+
+     }
+
     public function editProduct(Array $edit_array,  $product_id){
         if($this->get_product($product_id) == false){
             return false;
@@ -99,7 +103,7 @@
                     `product_price` = ?,
                     `product_discount` = ?,
                     `discount_method` = ?,
-                    `product_quantity` = ?,
+                    `product_quantity` = ?
               WHERE `product_id` = ? ;";
     
         $stmt= $this->attachDb()->prepare($sql);

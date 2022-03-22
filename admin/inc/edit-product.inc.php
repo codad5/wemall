@@ -63,12 +63,16 @@
            
             $sell_price_data = gen_sell_price($edit_price, $edit_discount, $edit_discount_method);
             $sell_price = $sell_price_data['validate'];
-            if($sell_price != false){
+            if($sell_price !== false){
 
                 $edit_result = $admin->editProduct($validate_input, $product_id);
                 if($edit_result === true){
                      echo "<script>
-                  notificationAdd(`Successfully Edited`, 'alert-success'); </script>";
+                  notificationAdd(`Successfully Edited`, 'alert-success');
+                    $(document).ready(() => {
+                          $('.product_table_body').load('inc/productTable.inc.php');
+                    })
+                  </script>";
                 }
                 else{
                   echo "<script>

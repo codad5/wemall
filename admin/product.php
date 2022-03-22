@@ -1,6 +1,9 @@
 <?php
     include_once 'header.php';
 ?>
+<script>
+  let product_elements_edit, product_elements_edit_btn, product_id, action;
+</script>
  <section class="my-3" id="accordion">
       <div class="bd-heading sticky-xl-top align-self-start mt-5 mb-3 mt-xl-0 mb-xl-2">
         <h3>Products Settings</h3>
@@ -195,62 +198,7 @@
         </div>
       </div>
 </section>
-<script>
-                          const product_elements_edit = document.querySelectorAll('.alter_product_btn');
-                          const product_elements_edit_btn = document.querySelectorAll('.edit_product_btn');
-                          let product_id= null, action = null;
-                          Array.prototype.forEach.call(product_elements_edit, elem => {
-                            elem.addEventListener('click', (e) => {
-                              console.log(elem.dataset);
-                              product_id = elem.dataset.productId;
-                              action = elem.dataset.productAction;
-                            });
-                          })
-                          
 
-                          $(document).ready(function() {
-                          var searchcount = 10;
-                          $(".delete_product_btn").click(function(event) {
-                            // product_id = $(".edit_product_btn");
-                              console.log(product_id);
-                              
-                              if(product_id !== null && action != null && confirm("Are you sure you want to proceed ?")){
-
-                                $(".product_table_body").load("inc/productTable.inc.php", {
-                                  product_id:product_id,
-                                  action: action
-                                });
-                                
-                              }
-                              else{
-                               
-                              }
-                          });
-                         
-                          $(".edit_product_btn").click(function(event) {
-                            document.querySelector('#product_table').click();
-                              
-                              setTimeout(() => {
-                                document.querySelector('#product_edit').click();
-
-                              }, 500)
-                            // product_id = $(".edit_product_btn");
-                              
-                              
-                              if(product_id !== null && action != null){
-                                
-                                $("#edit_product_cnt").load("inc/edit-product.inc.php", {
-                                  product_id:product_id,
-                                  action: action
-                                });
-                                
-                              }
-                              else{
-                                
-                              }
-                          });
-                      });
-                        </script>
     <script>
         let file_input = document.getElementById('product_image');
         let add_product = document.querySelector('#add_product');
