@@ -98,6 +98,7 @@
                     default:
                     
                     $data = @$data[0]['product_'.$filter];
+                
                     if(empty($data) || $data==null || !$data){
                         $data = @$data[0][$filter];
 
