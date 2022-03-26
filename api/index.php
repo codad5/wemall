@@ -24,6 +24,15 @@ header('Content-Type: application/json');
                     $this->datasent = $_GET;
                     $this->endrequest($this->prepareArray($result['data']));
                     break;
+                case 'gender' :
+                    $result = $this->getGender($keyword, $extra);
+                    $result['data'] = $this->prepare_product_array($result['data']);
+                    $this->message = $result['message'];
+                    $this->error = false;
+                    $this->datasent = $_GET;
+                    $this->endrequest($this->prepareArray($result['data']));
+
+                    break;
                 
                 
                     default:
@@ -69,6 +78,41 @@ header('Content-Type: application/json');
                 else{
                     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     return  ['message' => "Product with category ".$keyword, 'data' => $data];
+                    // return $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    // return false;
+                }
+            }
+        public function getGender($keyword, ...$extra){
+            if($keyword !== 'all'){
+                $sql = "SELECT * FROM products where product_gender = ? AND active_status != ?;";
+                $stmt = $this->connect()->prepare($sql);
+                if(!$stmt->execute(array($keyword, "deleted"))){
+                    $stmt = null;
+                    return false;
+
+                }
+                
+            }
+            else{
+                $sql = "SELECT * FROM products where product_gender in (?, ?) AND active_status != ?;";
+                $stmt = $this->connect()->prepare($sql);
+                if(!$stmt->execute(array("unisex", $keyword, "deleted"))){
+                    $stmt = null;
+                    return false;
+
+                }
+
+            }
+            
+        // return $stmt->rowCount();
+                if($stmt->rowCount() < 1){
+                    // echo $stmt->rowCount();
+                    return  ['message' => "No product tied to such Gender", 'data' => []]; #$stmt->rowCount();
+                    
+                }
+                else{
+                    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    return  ['message' => "Product with Gender ".$keyword, 'data' => $data];
                     // return $stmt->fetchAll(PDO::FETCH_ASSOC);
                     // return false;
                 }
