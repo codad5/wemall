@@ -42,7 +42,7 @@
         $edit_category = filter_var($_POST['edit_category'], FILTER_SANITIZE_STRING);
         $edit_price = filter_var($_POST['edit_price'], FILTER_VALIDATE_INT);
         $edit_discount_method = filter_var($_POST['edit_discount_method'], FILTER_SANITIZE_STRING);
-        $edit_discount = filter_var($_POST['edit_discount'], FILTER_VALIDATE_INT);
+        $edit_discount = filter_var($_POST['edit_discount'], FILTER_VALIDATE_INT) or 0;
         $edit_quantity = filter_var($_POST['edit_quantity'], FILTER_VALIDATE_INT);
         $edit_gender = filter_var($_POST['edit_gender'], FILTER_SANITIZE_STRING);
         $product_id = filter_var($_POST['product_id'], FILTER_SANITIZE_STRING);

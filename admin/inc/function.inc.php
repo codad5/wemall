@@ -5,9 +5,9 @@
         $i = 0;
         foreach ($inputs as $input => $value) {
             $i++;
-            if ($value == false) {
+            if ($value === false) {
                 $return_array['validate'] = false;
-                $return_array['error_msg'] = $inputs[$i];
+                $return_array['error_msg'] = $inputs[$i] or 'unknown value';
                 $return_array[$input] = $value;
                 
                 # code...
