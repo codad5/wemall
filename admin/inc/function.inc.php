@@ -31,6 +31,7 @@
             $temp_perm_link .= ''.$word.'-';
 
         }
+        
         return $temp_perm_link;
     }
 
