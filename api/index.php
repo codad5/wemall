@@ -119,12 +119,13 @@ header('Content-Type: application/json');
                 }
             }
 
-        public function prepareArray($dataneed = []){
+        public function prepareArray($dataneed, ...$extra){
             return $api_array = [
                 'message' => $this->message,
                 'error' => $this->error,
                 'datasent' => $this->datasent,
-                'data' => $dataneed
+                'data' => $dataneed,
+                'extra' => $extra
             ];
             
         }
@@ -159,7 +160,7 @@ header('Content-Type: application/json');
                     # code...
                     
                     $this->datasent = $_GET;
-                    $this->endrequest($this->prepareArray($result['data']));
+                    $this->endrequest($this->prepareArray($result['data']), "CDYRSDTYD");
                     
                 
                 
@@ -169,12 +170,13 @@ header('Content-Type: application/json');
 
         
 
-        public function prepareArray($dataneed = []){
+        public function prepareArray($dataneed, ...$extra){
             return $api_array = [
                 'message' => $this->message,
                 'error' => $this->error,
                 'datasent' => $this->datasent,
-                'data' => $dataneed
+                'data' => $dataneed,
+                'extra' => $_SERVER
             ];
             
         }
@@ -199,6 +201,7 @@ switch ($_GET['base']) {
     case 'product':
         # code...
         
+        $api = new Dbh();
         $api = new getProduct($filter, $keyword);
         break;
     

@@ -6,8 +6,13 @@
         private $pwd= "";
         private $dbName= "wemall";
         public $api_array = [];
+        public $base_url = "";
 
         public function __construct(){
+            $isLocalHost = ($_SERVER['HTTP_HOST'] == 'localhost');
+             
+            $this->base_url = ($_SERVER['HTTP_HOST'] == 'localhost') ? 'http://localhost/wemall/' : $_SERVER['HTTP_HOST']."/";
+            
             try{
                 $this->connect();
                 
@@ -195,20 +200,22 @@
                 return explode(',',$cat_array);
         }
         public  function prepare_product_array($products){
+            $isLocalHost = ($_SERVER['HTTP_HOST'] == 'localhost');
+            $this->base_url = ($_SERVER['HTTP_HOST'] == 'localhost') ? 'http://localhost/wemall/' : $_SERVER['HTTP_HOST']."/";
             for ($i=0; $i < count($products); $i++) { 
                             $products[$i]['product_id_private'] = $i;
                             $products[$i]['product_category'] = $this->productCat($products[$i]['product_category']);
                             $products[$i]['sell_price'] = $this->gen_sell_price($products[$i]['product_price'], $products[$i]['product_discount'], $products[$i]['discount_method'])['validate'];
-                            $products[$i]['product_image1'] = 'http://localhost/wemall/assets/image/gallery/'.$products[$i]['product_image1'];
-                            $products[$i]['product_image2'] = 'http://localhost/wemall/assets/image/gallery/'.$products[$i]['product_image2'];
-                            $products[$i]['product_image3'] = 'http://localhost/wemall/assets/image/gallery/'.$products[$i]['product_image3'];
-                            $products[$i]['product_image4'] = 'http://localhost/wemall/assets/image/gallery/'.$products[$i]['product_image4'];
-                            $products[$i]['product_image5'] = 'http://localhost/wemall/assets/image/gallery/'.$products[$i]['product_image5'];
+                            $products[$i]['product_image1'] = $this->base_url.'assets/image/gallery/'.$products[$i]['product_image1'];
+                            $products[$i]['product_image2'] = $this->base_url.'assets/image/gallery/'.$products[$i]['product_image2'];
+                            $products[$i]['product_image3'] = $this->base_url.'assets/image/gallery/'.$products[$i]['product_image3'];
+                            $products[$i]['product_image4'] = $this->base_url.'assets/image/gallery/'.$products[$i]['product_image4'];
+                            $products[$i]['product_image5'] = $this->base_url.'assets/image/gallery/'.$products[$i]['product_image5'];
                             $products[$i]['product_price'] = (int)$products[$i]['product_price'];
                             $products[$i]['product_quantity'] = (int)$products[$i]['product_quantity'];
                             $products[$i]['product_discount'] = (int)$products[$i]['product_discount'];
                             $products[$i]['total_delivery'] = (int)$products[$i]['total_delivery'];
-                            $products[$i]['api_perm_link'] = 'http://localhost/wemall/api/product/detail/'.$products[$i]['product_id'];
+                            $products[$i]['api_perm_link'] = $this->base_url.'api/product/detail/'.$products[$i]['product_id'];
                             # code...
                             
 
