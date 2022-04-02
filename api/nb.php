@@ -1,11 +1,10 @@
 <?php
 
     class Dbh{
-        
         private $host= "localhost";
-        private $user= "root"; // "murpcwti_murpcwti";
-        private $pwd= ""; //"macon35798642";
-        private $dbName= 'wemall'; //"murpcwti_wemall";
+        private $user= "root";
+        private $pwd= "";
+        private $dbName= "wemall";
         public $api_array = [];
         public $base_url = "";
 
@@ -118,7 +117,7 @@
                 return  ['message' => " ".$keyword." is avaliable", 'data' => $data];
             }
             else{
-                throw new Exception('No item found for key ' . $keyword);
+                throw new Exception('This item has been Deleted  ');
                 
                 return  ['message' => " ".$keyword."is unavaliable", 'data' => []];
                 #$stmt->rowCount();

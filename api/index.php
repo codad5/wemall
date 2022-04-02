@@ -119,7 +119,7 @@ header('Content-Type: application/json');
                 }
             }
 
-        public function prepareArray($dataneed, ...$extra){
+        public function prepareArray($dataneed = [], ...$extra){
             return $api_array = [
                 'message' => $this->message,
                 'error' => $this->error,
@@ -176,12 +176,18 @@ header('Content-Type: application/json');
                 'error' => $this->error,
                 'datasent' => $this->datasent,
                 'data' => $dataneed,
-                'extra' => $_SERVER
+                'extra' => []
             ];
             
         }
     }
+    class Rate extends Dbh{
+        public $product;
+        public $rating;
+        public function __construct($rating, $product){
 
+        }
+    }
 
 if (!isset($_GET['filter']) || !isset($_GET['base'])) {
     # code...
@@ -204,6 +210,9 @@ switch ($_GET['base']) {
         $api = new Dbh();
         $api = new getProduct($filter, $keyword);
         break;
+    case 'rate':
+        $api = new Rate($filter, $keyword);
+
     
     default:
         # code...
