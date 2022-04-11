@@ -7,6 +7,8 @@ header('Access-Control-Allow-Headers: ');
 header('Access-Control-Allow-Headers: x-rapidapi-key, x-rapidapi-host');
 header('Access-Control-Allow-Headers: content-type');
 header('Content-Type: application/json');
+    require_once $_SERVER['DOCUMENT_ROOT']."/vendor/autoload.php";
+    use \Firebase\JWT\JWT;
     require_once 'Dbh.classes.php';
     Class getList extends Dbh{
         public $message;
@@ -47,7 +49,21 @@ header('Content-Type: application/json');
 
             var_dump($extra);
         }
-
+        public function auth(){
+            $iat = time();
+            $exp = $iat + 60 * 60;
+            $payload = [
+                'iss' => $this->base_url.'/api',
+                'aud' => 'http://localhost:3000',
+                'iat' => $iat,
+                'exp' => $exp
+            ];
+            $jwt = JWT::encode($payload, $this->api_key, 'HS512');
+            return [
+                'token' => $jwt,
+                'expires' => $exp
+            ];
+        }
         public function getCategory($keyword, ...$extra){
             if($keyword !== 'all'){
                 $sql = "SELECT * FROM products where product_category LIKE ? AND active_status != ?;";

@@ -1,0 +1,20 @@
+<?php
+
+function solution($N) {
+    // write your code in PHP7.0
+    $binary = decbin($N);
+    $binary_space = explode("1", strval($binary));
+    $binary_space = array_filter($binary_space, function ($value) { return (!is_null($value) && $value !== '');});
+    if(count($binary_space) > 1){
+        
+        $lengths = array_map('strlen', $binary_space);
+        return max($lengths);
+    }
+    return 0;
+    
+}
+
+
+var_dump(solution(readline("Seperate Number witb ,")))
+
+?>

@@ -8,6 +8,7 @@
         private $dbName= 'wemall'; //"murpcwti_wemall";
         public $api_array = [];
         public $base_url = "";
+        protected $api_key = 'wemall';
 
         public function __construct(){
             $isLocalHost = ($_SERVER['HTTP_HOST'] == 'localhost');
