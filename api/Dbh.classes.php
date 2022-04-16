@@ -1,5 +1,18 @@
 <?php
+    require_once $_SERVER['DOCUMENT_ROOT']."/wemall/vendor/autoload.php";
+    use \Firebase\JWT\JWT;
 
+    class Validate {
+        public static function return_error_array(...$data) : Array {
+            $newData = [];
+            foreach ($data as $key => $value) {
+                # code...
+                $newData[$key] = $value;
+            }
+            return $newData;
+
+        }
+    }
     class Dbh{
         
         private $host= "localhost";
@@ -76,7 +89,21 @@
             $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
             return $pdo;
         }
-
+        public function auth(){
+            $iat = time();
+            $exp = $iat + 60 * 60;
+            $payload = [
+                'iss' => $this->base_url.'/api',
+                'aud' => 'http://localhost:3000',
+                'iat' => $iat,
+                'exp' => $exp
+            ];
+            $jwt = JWT::encode($payload, $this->api_key, 'HS512');
+            return [
+                'token' => $jwt,
+                'expires' => $exp
+            ];
+        }
         public function get_product($filter, $keyword, ...$extra){
             $res = "";
             $stmt = $this->connect()->prepare("SELECT * FROM products WHERE product_id = ? AND active_status != 'deleted';");
@@ -226,9 +253,43 @@
 
                         return $products;
         }
+
+        public function check_empty(Array $values, ...$extra) : Validate|bool|Array{
+            $newMessage = [];
+            $anyError = false;
+            foreach ($values as $key => $value) {
+                # code...
+                if(empty($key) || empty($value)){
+                    $anyError = true;
+                    $newMessage['message'][] = $key." is empty";
+                }
+            }
+            if($anyError) {
+                $newMessage['error'] = $anyError;
+                return  Validate::return_error_array($newMessage)[0];
+            }
+            $newMessage['error'] = $anyError;
+            return $newMessage;
+        }
         
-        public static function endrequest(Array $api_array, ...$extraa){
-            
+        public static function validate_data(...$data){
+            $error = false;
+            $_message = array();
+            foreach ($data as $key => $value) {
+                $validate = filter_var($value[0], $value[1]);
+                if($validate == false){
+                    $error = true;
+                    $_message[$key] = $value[0]."is a invalid data type for ".$key;
+
+
+                }
+                # code...
+            }
+            $return_array = ['error' => $error, 'message' => $_message];
+            return $return_array;
+        }
+        public static function endrequest(Array $api_array,int  $headerresponse = 200,...$extraa){
+            header('Content-Type: application/json', $headerresponse);
             echo json_encode($api_array);
             exit;
         }

@@ -1,7 +1,7 @@
 <?php
 
 function solution($N) {
-    // write your code in PHP7.0
+    // write your code in PHP7.0   
     $binary = decbin($N);
     $binary_space = explode("1", strval($binary));
     $binary_space = array_filter($binary_space, function ($value) { return (!is_null($value) && $value !== '');});
@@ -15,6 +15,6 @@ function solution($N) {
 }
 
 
-var_dump(solution(readline("Seperate Number witb ,")))
+var_dump(solution("3, 30, 8 , 0, 300, 20"))
 
 ?>
