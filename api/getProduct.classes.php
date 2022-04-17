@@ -24,7 +24,7 @@
                     # code...
                     
                     $this->datasent = $_GET;
-                    $this->endrequest($this->prepareArray($result['data'], $_SERVER), "CDYRSDTYD");
+                    $this->endrequest($this->prepareArray($result['data'], $_SERVER),200, "CDYRSDTYD");
                     
                 
                 

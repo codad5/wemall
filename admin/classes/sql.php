@@ -10,6 +10,16 @@ $setup_sql = 'CREATE TABLE admins (
     datejoined datetime NOT NULL
 
 );
+CREATE TABLE users (
+	id int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    name varchar(255) NOT NULL,
+    email varchar(300) NOT NULL,
+    phone varchar(300) NOT NULL,
+    passwords varchar(300) NOT NULL,
+    verified boolean NOT NULL,
+    datejoined datetime DEFAULT CURRENT_TIMESTAMP
+
+);
 CREATE TABLE products (
 	product_id_private int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,
 	product_id varchar(255) NOT NULL,

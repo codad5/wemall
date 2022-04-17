@@ -89,7 +89,7 @@
             $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
             return $pdo;
         }
-        public function auth(){
+        public function JWT_auth(){
             $iat = time();
             $exp = $iat + 60 * 60;
             $payload = [
@@ -153,6 +153,53 @@
             }
        
 
+        }
+
+        public static function get_users(Dbh $user, $param, $filter, $strict = true) : Array{
+            $return_array = [];
+            $return_array['error'] = true;
+            $return_array['message'] = "";
+            $symbol = '=';
+            $unknown = "?";
+            if(!$strict){
+                $unknown = "%".$unknown."%";
+                $symbol = 'LIKE';
+            }
+            
+            try{
+
+                $stmt = $user->connect()->prepare("SELECT * FROM users WHERE ".$filter." ".$symbol." ".$unknown.";");
+                $res = $stmt->execute(array($param));
+                if(!$res){
+                    $stmt = null;
+                    throw new Exception('Server error');
+
+                }
+                if($stmt->rowCount() > 0){
+                    $return_array['error'] = false;
+                    $return_array['message'] = "Users with ".$filter." Related to ".$param; 
+                    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    $return_array['data'] = $data;
+                }
+                else{
+                    $return_array['error'] = true;
+                    $return_array['message'] = "No Users with ".$filter." Related to ".$param; 
+                    $data = [];
+                    $return_array['data'] = $data;
+                }
+            }
+            catch(Exception $e){
+                $return_array['message'] = $e->getMessage(); 
+                $return_array['error'] = true;
+                
+                
+            }
+            
+            
+            
+            return $return_array;
+
+            
         }
         
         protected function checkWebsite($domain){
@@ -279,7 +326,7 @@
                 $validate = filter_var($value[0], $value[1]);
                 if($validate == false){
                     $error = true;
-                    $_message[$key] = $value[0]."is a invalid data type for ".$key;
+                    $_message[$key] = $value[0]." is a invalid data type for ".$key;
 
 
                 }
