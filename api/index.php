@@ -7,11 +7,13 @@ header('Access-Control-Allow-Headers: ');
 header('Access-Control-Allow-Headers: x-rapidapi-key, x-rapidapi-host');
 header('Access-Control-Allow-Headers: content-type');
 header('Content-Type: application/json');
+require_once $_SERVER['DOCUMENT_ROOT']."/wemall/vendor/autoload.php";
+require_once 'class.autoload.php';
+require_once 'Dbh.classes.php';
+use \Api\Payment;
+// use \Firebase\JWT\Key;
 $_POST = json_decode(file_get_contents('php://input'), true);
-    require_once $_SERVER['DOCUMENT_ROOT']."/wemall/vendor/autoload.php";
-    require_once 'class.autoload.php';
-    use \Firebase\JWT\JWT;
-    require_once 'Dbh.classes.php';
+$config = new Config();
 
 if (!isset($_GET['filter']) || !isset($_GET['base'])) {
     # code...
@@ -129,6 +131,7 @@ switch ($_GET['base']) {
         $api->endrequest($api_array);
     break;
     case 'order':
+        
         if($_SERVER['REQUEST_METHOD'] == 'GET'):
               Dbh::endrequest(["error" => true,
                                'message' => 'This is a invalid request type ',
@@ -141,22 +144,71 @@ switch ($_GET['base']) {
         
         // $data = $_POST['login_detail']['data'];
         // var_dump($_POST['login_detail']->message); 
-        if(!isset($_POST['login_detail']) ||  !isset($_POST['cart']) || !isset($_POST['login_detail']->login_token->token) || !isset($_POST['login_detail']->data->email)):
+        if(!isset($_POST['login_detail']) ||  !isset($_POST['cart']) ||  !isset($_POST['payment_method']) || !isset($_POST['login_detail']->login_token->token) || !isset($_POST['login_detail']->data->email) ):
             Dbh::endrequest(array(
                 'message' => "Some Param are Missing",
                 'param_given' => $_POST,
+                'param_give' => $_POST['cart']['items'][1],
                 'error' => true,
-                'param_needed' => ['login_details' => (isset($_POST['login_detail']))  ,
+                'param_needed' => ['login_detail' => (isset($_POST['login_detail']))  ,
                                   'cart' => (isset($_POST['cart'])),
+                                  'jwt' => (isset($_POST['login_detail']->login_token->token)),
+                                  'email' => (isset($_POST['login_detail']->data->email)),
+                                  'payment_method' => (isset($_POST['payment_method'])),
                                    
                                  ]
                                 )
                             );
         
         endif;
+        $payment_method = $_POST['payment_method'];
+
+        switch ($payment_method):
+            case 'payStack':
+                $payment_method = new Payment\PayStack("anuejn@hbi.com");
+            break;
+            default:
+                $payment_method = new Payment\PayStack("anuejn@hbi.com");
+            break;
+        endswitch;
         $api_array = [];
-        $newOrder = new Order("Anim@mnn.com", "hibdj", 100, 100);
-        $newOrder->test();
+        $newOrder = new Order($_POST['login_detail']->login_token->token, $_POST['login_detail']->data->email, 100, $payment_method);
+        if($newOrder->validateAuth() !== true):
+            Dbh::endrequest(array(
+                'message' => "Some Bad Jwt",
+                'param_given' => $_POST,
+                'param_give' => $_POST['login_detail']->login_token->token,
+                // 'param_gived' => $newOrder->JWT_validate($_POST['login_detail']->login_token->token, "yai@hbdv.com"),
+                'error' => true,
+                'param_needed' => ['login_detail' => (isset($_POST['login_detail']))  ,
+                                  'cart' => (isset($_POST['cart'])),
+                                   
+                                 ]
+                                )
+                            );
+        endif;
+
+        $cart = $_POST['cart']['items'];
+        foreach($cart as $item){
+            $newOrderItems = $newOrder->registerProduct($item);
+            if($newOrderItems !== true):
+                $return_array['error'] = true;
+                $return_array['message'] = 'An error occur with product '.$item['data']['product_name'];
+                $return_array['target'] = $item['data']['product_id'];
+                $newOrder->endrequest($return_array);
+                
+            endif;
+            }
+            $implement_order = $newOrder->implementOrder();
+            if($implement_order !== true){
+                $api_array['error'] = true;
+                $api_array['message'] = $implement_order['message'];
+                $newOrder->endrequest($api_array);
+
+            }
+
+        
+
     break;
     default:
     var_dump($_GET);

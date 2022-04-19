@@ -1,6 +1,7 @@
 <?php
     require_once $_SERVER['DOCUMENT_ROOT']."/wemall/vendor/autoload.php";
     use \Firebase\JWT\JWT;
+    use \Firebase\JWT\Key as JWT_KEY;
 
     class Validate {
         public static function return_error_array(...$data) : Array {
@@ -106,6 +107,9 @@
                 'token' => $jwt,
                 'expires' => $exp
             ];
+        }
+        public function JWT_validate($token, $user=""){
+            return JWT::decode($token, new JWT_KEY($this->api_key.$user, 'HS512'));
         }
         public function get_product($filter, $keyword, ...$extra){
             $res = "";
@@ -329,7 +333,8 @@
                 $validate = filter_var($value[0], $value[1]);
                 if($validate == false){
                     $error = true;
-                    $_message[$key] = $value[0]." is a invalid data type for ".$key;
+                    $_message[$key] = $value[0]." is a invalid data type for ".$value[1];
+                    // $message[] = $value;
 
 
                 }

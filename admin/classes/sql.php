@@ -20,7 +20,7 @@ CREATE TABLE users (
     datejoined datetime DEFAULT CURRENT_TIMESTAMP
 
 );
-CREATE TABLE orders (
+CREATE TABLE ordersItems (
 	id int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,
     email varchar(300) NOT NULL,
     product_name varchar(255) NOT NULL,
@@ -28,8 +28,30 @@ CREATE TABLE orders (
     quantity int(11) NOT NULL,
     sales_price int(11) NOT NULL,
     total_price int(11) NOT NULL,
+    order_id boolean NOT NULL,
+    datejoined datetime DEFAULT CURRENT_TIMESTAMP
+
+);
+CREATE TABLE orders (
+	id int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    email varchar(300) NOT NULL,
+    quantity int(11) NOT NULL,
+    total_price int(11) NOT NULL,
+    order_id boolean NOT NULL,
+    payment_id varchar(300) NOT NULL,
     verified boolean NOT NULL,
     delivered boolean NOT NULL,
+    datejoined datetime DEFAULT CURRENT_TIMESTAMP
+
+);
+CREATE TABLE Payment (
+	id int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    email varchar(300) NOT NULL,
+    order_id varchar(255) NOT NULL,
+    payment_id varchar(300) NOT NULL,
+    payment_method varchar(300) NOT NULL,
+    total_quantity int(11) NOT NULL,
+    total_price int(11) NOT NULL,
     datejoined datetime DEFAULT CURRENT_TIMESTAMP
 
 );
