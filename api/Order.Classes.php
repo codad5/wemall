@@ -65,7 +65,7 @@ use \Api\Payment;
                $result['message'] = $e->getMessage();
                 return $result;
             }
-            $this->order_price =  (int) ($product['sell_price'] * $quantity);
+            $this->order_price +=  (int) ($product['sell_price'] * $quantity);
             return true;
 
         }

@@ -165,10 +165,10 @@ switch ($_GET['base']) {
 
         switch ($payment_method):
             case 'payStack':
-                $payment_method = new Payment\PayStack("anuejn@hbi.com");
+                $payment_method = new Payment\PayStack($_POST['login_detail']->data->email);
             break;
             default:
-                $payment_method = new Payment\PayStack("anuejn@hbi.com");
+                $payment_method = new Payment\PayStack($_POST['login_detail']->data->email);
             break;
         endswitch;
         $api_array = [];
@@ -203,6 +203,13 @@ switch ($_GET['base']) {
             if($implement_order !== true){
                 $api_array['error'] = true;
                 $api_array['message'] = $implement_order['message'];
+                $newOrder->endrequest($api_array);
+                
+            }
+            else{
+                $api_array['error'] = false;
+                $api_array['message'] = "Begin payment with paystack";
+                $api_array['data']['payment_id'] = $newOrder->order_details['data'];
                 $newOrder->endrequest($api_array);
 
             }

@@ -1,5 +1,18 @@
-"<br />
-<b>Warning</b>:  Undefined variable $implent_order in <b>C:\xampp\htdocs\wemall\api\index.php</b> on line <b>202</b><br />
+"array(3) {
+  ["status"]=>
+  bool(true)
+  ["message"]=>
+  string(25) "Authorization URL created"
+  ["data"]=>
+  array(3) {
+    ["authorization_url"]=>
+    string(45) "https://checkout.paystack.com/fi3ixmdeqkr2rkm"
+    ["access_code"]=>
+    string(15) "fi3ixmdeqkr2rkm"
+    ["reference"]=>
+    string(10) "1u7nyjkmgw"
+  }
+}
 <br />
-<b>Warning</b>:  Trying to access array offset on value of type bool in <b>C:\xampp\htdocs\wemall\api\index.php</b> on line <b>204</b><br />
-{"error":true,"message":null}"
+<b>Warning</b>:  Undefined array key "refrence" in <b>C:\xampp\htdocs\wemall\api\Payment.classes.php</b> on line <b>50</b><br />
+"

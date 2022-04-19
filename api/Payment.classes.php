@@ -43,10 +43,12 @@ class PayStack implements Payment_method{
             throw new \Exception("Error Connecting to payStack");
             return false;
         } else {
+            $response = json_decode($response, true);
+            // var_dump($response);
             if($response['status']){
-                $result = json_decode($response, true);
-                $this->refrence = $result['refrence'];
-                return $result;
+
+                $this->refrence = $response['data']['reference'];
+                return $response;
             }
             else{
                 throw new \Exception("Error processing payStack");
