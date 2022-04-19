@@ -49,7 +49,7 @@ Class Login extends Dbh{
             if(password_verify($this->password, $return_array['data']['passwords'])):
                 $return_array['message'] = "login successful.";
                 $return_array['error'] = false;
-                $return_array['login_token'] = $this->JWT_auth();
+                $return_array['login_token'] = $this->JWT_auth($return_array['data']['email ']);
                 $return_array['data']['passwords'] = "321*34*452*";
 
             else:

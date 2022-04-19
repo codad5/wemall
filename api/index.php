@@ -19,7 +19,7 @@ if (!isset($_GET['filter']) || !isset($_GET['base'])) {
     exit;
 }
 
-
+$api_array = [];
 $filter = filter_var($_GET['filter'], FILTER_SANITIZE_STRING);
 $keyword = @filter_var($_GET['keyword'], FILTER_SANITIZE_STRING);
 switch ($_GET['base']) {
@@ -128,11 +128,43 @@ switch ($_GET['base']) {
 
         $api->endrequest($api_array);
     break;
+    case 'order':
+        if($_SERVER['REQUEST_METHOD'] == 'GET'):
+              Dbh::endrequest(["error" => true,
+                               'message' => 'This is a invalid request type ',
+                               'request_method' => $_SERVER['REQUEST_METHOD'],
+                               'avaliable_request_type' => ['POST']
+                                ], 500);
+             
+        endif;
+        $_POST['login_detail'] = json_decode($_POST['login_detail']);
+        
+        // $data = $_POST['login_detail']['data'];
+        // var_dump($_POST['login_detail']->message); 
+        if(!isset($_POST['login_detail']) ||  !isset($_POST['cart']) || !isset($_POST['login_detail']->login_token->token) || !isset($_POST['login_detail']->data->email)):
+            Dbh::endrequest(array(
+                'message' => "Some Param are Missing",
+                'param_given' => $_POST,
+                'error' => true,
+                'param_needed' => ['login_details' => (isset($_POST['login_detail']))  ,
+                                  'cart' => (isset($_POST['cart'])),
+                                   
+                                 ]
+                                )
+                            );
+        
+        endif;
+        $api_array = [];
+        $newOrder = new Order("Anim@mnn.com", "hibdj", 100, 100);
+        $newOrder->test();
+    break;
     default:
     var_dump($_GET);
-        # code...
+        # code...c
         break;
 }
+
+
 
 
 

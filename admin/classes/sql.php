@@ -20,6 +20,19 @@ CREATE TABLE users (
     datejoined datetime DEFAULT CURRENT_TIMESTAMP
 
 );
+CREATE TABLE orders (
+	id int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    email varchar(300) NOT NULL,
+    product_name varchar(255) NOT NULL,
+    product_id varchar(300) NOT NULL,
+    quantity int(11) NOT NULL,
+    sales_price int(11) NOT NULL,
+    total_price int(11) NOT NULL,
+    verified boolean NOT NULL,
+    delivered boolean NOT NULL,
+    datejoined datetime DEFAULT CURRENT_TIMESTAMP
+
+);
 CREATE TABLE products (
 	product_id_private int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,
 	product_id varchar(255) NOT NULL,

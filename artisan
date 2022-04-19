@@ -15,6 +15,23 @@ function solution($N) {
 }
 
 
-var_dump(solution("3, 30, 8 , 0, 300, 20"))
+class solutions{
+    public function __construct($word){
+        $array = str_split($word);
+        $reverse =array_reverse($array);
+
+        if($array == $reverse):
+            echo "true";
+            return true;
+        else:
+            echo "false";
+            return false;
+        endif;
+    }
+}
+$hu = new solutions(readline("Put in your word "));
+
+
+// var_dump(solution("3, 30, 8 , 0, 300, 20"))
 
 ?>

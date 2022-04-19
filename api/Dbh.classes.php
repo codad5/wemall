@@ -89,7 +89,10 @@
             $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
             return $pdo;
         }
-        public function JWT_auth(){
+        public function JWT_auth($user=""){
+            if(empty($user)):
+                return false;
+            endif;
             $iat = time();
             $exp = $iat + 60 * 60;
             $payload = [
@@ -98,7 +101,7 @@
                 'iat' => $iat,
                 'exp' => $exp
             ];
-            $jwt = JWT::encode($payload, $this->api_key, 'HS512');
+            $jwt = JWT::encode($payload, $this->api_key.$user, 'HS512');
             return [
                 'token' => $jwt,
                 'expires' => $exp
