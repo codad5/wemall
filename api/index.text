@@ -16,3 +16,16 @@
 <br />
 <b>Warning</b>:  Undefined array key "refrence" in <b>C:\xampp\htdocs\wemall\api\Payment.classes.php</b> on line <b>50</b><br />
 "
+
+
+
+
+
+I personally choose to do this project as a side project so that I will be able to my client great skills i have in PHP and react.js development
+
+In this project 
+I used an API that was built on PHP
+This API was used to interact with react and PHP asynchronously 
+I also added a login function and to ensure security I used a PHP library called JWT-TOKEN
+I also integrate a payment gateway which could be by cash or online in which I used a payment API called PAYSTACK which I find interesting due to their features
+I also applied the knowledge of top OOPs concepts like INHERITANCE, INTERFACE, STATIC e.t.c.

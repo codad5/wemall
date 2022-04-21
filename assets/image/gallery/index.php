@@ -6,8 +6,9 @@ $txt = json_encode($_SERVER);
 $txt.="\n\n".rand();
 fwrite($myfile, $txt);
 fclose($myfile);
-if(isset($_GET['image']) && isset($tel) && @$_SERVER['HTTP_REFERER'] === 'http://localhost:3000/'){
-    header('Content-Type: image/png');
+// include_once 'ipic.php';
+if(isset($_GET['image']) && isset($tel)){
+    header('Content-Type: image/jpeg');
     include_once $_GET['image'];
     exit;
 }

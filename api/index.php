@@ -1,4 +1,8 @@
 <?php
+require_once $_SERVER['DOCUMENT_ROOT']."/wemall/vendor/autoload.php";
+require_once 'class.autoload.php';
+require_once 'Dbh.classes.php';
+
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST');
 header('Access-Control-Allow-Headers: X-Requested-With');
@@ -7,12 +11,11 @@ header('Access-Control-Allow-Headers: ');
 header('Access-Control-Allow-Headers: x-rapidapi-key, x-rapidapi-host');
 header('Access-Control-Allow-Headers: content-type');
 header('Content-Type: application/json');
-require_once $_SERVER['DOCUMENT_ROOT']."/wemall/vendor/autoload.php";
-require_once 'class.autoload.php';
-require_once 'Dbh.classes.php';
+
 use \Api\Payment;
 // use \Firebase\JWT\Key;
 $_POST = json_decode(file_get_contents('php://input'), true);
+
 $config = new Config();
 
 if (!isset($_GET['filter']) || !isset($_GET['base'])) {
