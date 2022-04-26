@@ -102,6 +102,7 @@ use \Api\Payment;
         }
 
         /**
+         * Your will loop the `$_POST['cart']` then pass every single cart item into this to add item
          * @param Array $product_detail
          * This is an array carring all info about an item in the order list (Cart)
          * @return bool|Array
@@ -137,7 +138,15 @@ use \Api\Payment;
             return true;
 
         }
-
+        /**
+         * This initial the Payment Process and Store Order in the Database
+         * @return bool|Array
+         * return `Array` at failure --
+         * return `array['message']` contains error log
+         * 
+         * return `true` if successful
+         * 
+         */
         public function implementOrder(){
             try{
                 $this->payment_details = $this->payment_method->init($this->order_price);}
