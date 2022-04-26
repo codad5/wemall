@@ -25,6 +25,7 @@ RewriteCond %{REQUEST_FILENAME}\.php  -f
 
 RewriteRule ^api/  api.php/dbh.classes.php?prdid=nonenn [NC,L]
 
+
 RewriteCond %{REQUEST_FILENAME} !-d
 
 #if file not in server dont go ahead 
@@ -36,13 +37,24 @@ RewriteCond %{REQUEST_FILENAME}\.php -f
 RewriteRule ^(.*)$ $1.php [NC,L]
 
 
-# RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} -d
 
-# #if file not in server dont go ahead 
+#if file not in server dont go ahead 
 
-# RewriteCond %{REQUEST_FILENAME}\.php !-f
+RewriteCond %{REQUEST_FILENAME}\index.php !-f
+# RewriteCond %{REQUEST_FILENAME}\index.html !-f
 
-# #HEre is to show the page with .php extension
+#HEre is to show the page with .php extension
 
-# RewriteRule ^(.*)$ 404.php [NC,L]
+RewriteRule ^(.*)$ 404.php?error=500 [NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+
+#if file not in server dont go ahead 
+
+RewriteCond %{REQUEST_FILENAME} !-f
+
+#HEre is to show the page with .php extension
+
+RewriteRule ^(.*)$ 404.php [NC,L]
 

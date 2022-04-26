@@ -1,7 +1,7 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT']."/wemall/vendor/autoload.php";
-require_once 'class.autoload.php';
-require_once 'Dbh.classes.php';
+require_once 'includes/class.autoload.php';
+// require_once 'Dbh.classes.php';
 
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST');
@@ -212,7 +212,7 @@ switch ($_GET['base']) {
             else{
                 $api_array['error'] = false;
                 $api_array['message'] = "Begin payment with paystack";
-                $api_array['data']['payment_id'] = $newOrder->order_details['data'];
+                $api_array['data']['payment_id'] = $newOrder->payment_details['data'];
                 $newOrder->endrequest($api_array);
 
             }
@@ -221,7 +221,12 @@ switch ($_GET['base']) {
 
     break;
     default:
-    var_dump($_GET);
+    Dbh::endrequest([
+        'message' => 'bad request',
+        'error' => true,
+        'data_sent' => $_REQUEST
+    ], 400);
+    // header('', true, 400);
         # code...c
         break;
 }

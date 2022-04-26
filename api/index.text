@@ -29,3 +29,9 @@ This API was used to interact with react and PHP asynchronously
 I also added a login function and to ensure security I used a PHP library called JWT-TOKEN
 I also integrate a payment gateway which could be by cash or online in which I used a payment API called PAYSTACK which I find interesting due to their features
 I also applied the knowledge of top OOPs concepts like INHERITANCE, INTERFACE, STATIC e.t.c.
+
+
+
+
+I used OOPs all through the project to ensure easy scalability of software
+I also developed an API to be able to develop an android / IOS app in easy

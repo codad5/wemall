@@ -9,10 +9,7 @@
         if(strpos($url, 'inc') !== false){
             $path = "../classes/";
         }
-        elseif(strpos($url, 'api') !== false){
-            $path = "../classes/";
-
-        }
+        
         else{
             $path = "classes/";
 
@@ -20,10 +17,10 @@
         $extension = ".classes.php";
         if (str_contains($classname, 'Api\Payment')) { 
             // echo 'true';
-            require_once "Payment".$extension;
+            require_once $path."Payment".$extension;
         }
         else{
-            require_once $classname.$extension;
+            require_once $path.$classname.$extension;
             
         }
     }

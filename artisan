@@ -16,8 +16,8 @@ function solution($N) {
 
 
 class solutions{
-    public function __construct($word){
-        $array = str_split($word);
+    public function __construct($x){
+        $array = str_split($x);
         $reverse =array_reverse($array);
 
         if($array == $reverse):
@@ -30,8 +30,18 @@ class solutions{
     }
 }
 $hu = new solutions(readline("Put in your word "));
-
-
+var_dump($_SERVER['argv']);
+cli_set_process_title("Hello");
+// var_dump(xmlrpc_server_create());
+$cose = 200;
+// var_dump(stat('header.php'));
+var_dump(scandir('../'));
+echo "\n \n";
+// var_dump(stream_socket_server('http://localhost:8000'));
+syslog(LOG_NOTICE, "'LOG_INFO'");
+system("PHP -S localhost:8000 -f ../wemall");
+// sys
+// new SoapClient(null);
 // var_dump(solution("3, 30, 8 , 0, 300, 20"))
 
 ?>

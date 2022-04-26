@@ -33,9 +33,9 @@
             echo "\n";
         }
     }
-    $x = readline('Enter number of row: ');
-    $y = readline('Enter number of Column: ');
-    generate_card($x, $y);
+    // $x = readline('Enter number of row: ');
+    // $y = readline('Enter number of Column: ');
+    // generate_card($x, $y);
 
 
 
@@ -54,3 +54,6 @@
         }
     }
 }
+
+
+phpinfo();
