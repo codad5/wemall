@@ -21,7 +21,7 @@
 
 
 
-I personally choose to do this project as a side project so that I will be able to my client great skills i have in PHP and react.js development
+I personally choose to do this project as a side proreturject so that I will be able to my client great skills i have in PHP and react.js development
 
 In this project 
 I used an API that was built on PHP
@@ -35,3 +35,41 @@ I also applied the knowledge of top OOPs concepts like INHERITANCE, INTERFACE, S
 
 I used OOPs all through the project to ensure easy scalability of software
 I also developed an API to be able to develop an android / IOS app in easy
+
+
+
+
+
+
+
+
+
+
+
+
+"<br />
+<b>Warning</b>:  Undefined array key "data" in <b>C:\xampp\htdocs\wemall\api\classes\Order.Classes.php</b> on line <b>117</b><br />
+<br />
+<b>Warning</b>:  Trying to access array offset on value of type null in <b>C:\xampp\htdocs\wemall\api\classes\Order.Classes.php</b> on line <b>118</b><br />
+<br />
+<b>Warning</b>:  Trying to access array offset on value of type null in <b>C:\xampp\htdocs\wemall\api\classes\Order.Classes.php</b> on line <b>118</b><br />
+<br />
+<b>Warning</b>:  Trying to access array offset on value of type null in <b>C:\xampp\htdocs\wemall\api\classes\Order.Classes.php</b> on line <b>118</b><br />
+<br />
+<b>Warning</b>:  Undefined array key "product_name" in <b>C:\xampp\htdocs\wemall\api\classes\Order.Classes.php</b> on line <b>123</b><br />
+<br />
+<b>Warning</b>:  Undefined array key "product_id" in <b>C:\xampp\htdocs\wemall\api\classes\Order.Classes.php</b> on line <b>123</b><br />
+<br />
+<b>Warning</b>:  Undefined array key "product_id" in <b>C:\xampp\htdocs\wemall\api\classes\Order.Classes.php</b> on line <b>133</b><br />
+{"error":true,"message":"An error occur with product Sweet Sweater","target":"624dcab521a429.71215399"}"
+
+
+
+
+"<br />
+<b>Fatal error</b>:  Uncaught Error: Typed property Order::$order_price must not be accessed before initialization in C:\xampp\htdocs\wemall\api\classes\Order.Classes.php:137
+Stack trace:
+#0 C:\xampp\htdocs\wemall\api\index.php(200): Order-&gt;registerProduct(Array)
+#1 {main}
+  thrown in <b>C:\xampp\htdocs\wemall\api\classes\Order.Classes.php</b> on line <b>137</b><br />
+"

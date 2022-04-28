@@ -19,7 +19,7 @@ use \Api\Payment;
          * This is the accumulative (total)  order price.
          * @param int $order_price
          */
-        protected int $order_price;
+        protected int $order_price = 0;
 
 
         /**
@@ -114,7 +114,7 @@ use \Api\Payment;
         public function registerProduct($product_detail) {
             try{
 
-                $product = $this->get_product('detail',$product_detail['data']['product_id'])['data'];
+                $product = $this->get_product('detail',$product_detail['data']['product_id']);
                 $product['sell_price'] = $this->gen_sell_price($product['product_price'], $product['product_discount'], $product['discount_method'])['validate'];
                 $quantity = $product_detail['quantity'];
                 // $sale_price = $product['data'][''];

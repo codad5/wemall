@@ -14,7 +14,7 @@
 
         }
     }
-    class Dbh{
+    class Dbh extends Config{
         
         private $host= "localhost";
         private $user= "root"; // "murpcwti_murpcwti";
@@ -90,27 +90,7 @@
             $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
             return $pdo;
         }
-        public function JWT_auth($user=""){
-            if(empty($user)):
-                return false;
-            endif;
-            $iat = time();
-            $exp = $iat + 60 * 60;
-            $payload = [
-                'iss' => $this->base_url.'/api',
-                'aud' => 'http://localhost:3000',
-                'iat' => $iat,
-                'exp' => $exp
-            ];
-            $jwt = JWT::encode($payload, $this->api_key.$user, 'HS512');
-            return [
-                'token' => $jwt,
-                'expires' => $exp
-            ];
-        }
-        public function JWT_validate($token, $user=""){
-            return JWT::decode($token, new JWT_KEY($this->api_key.$user, 'HS512'));
-        }
+        
         public function get_product($filter, $keyword, ...$extra){
             $res = "";
             $stmt = $this->connect()->prepare("SELECT * FROM products WHERE product_id = ? AND active_status != 'deleted';");
@@ -150,12 +130,12 @@
                     break;
                 }
                 
-                return  ['message' => " ".$keyword." is avaliable", 'data' => $data];
+                return   $data;
             }
             else{
-                throw new Exception('No item found for key ' . $keyword);
                 
-                return  ['message' => " ".$keyword."is unavaliable", 'data' => []];
+                
+                return  [];
                 #$stmt->rowCount();
             }
        
@@ -343,9 +323,5 @@
             $return_array = ['error' => $error, 'message' => $_message];
             return $return_array;
         }
-        public static function endrequest(Array $api_array,int  $headerresponse = 200,...$extraa){
-            header('Content-Type: application/json', $headerresponse);
-            echo json_encode($api_array);
-            exit;
-        }
+        
     }

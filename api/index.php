@@ -1,7 +1,9 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT']."/wemall/vendor/autoload.php";
 require_once 'includes/class.autoload.php';
+require_once 'includes/functions.inc.php';
 // require_once 'Dbh.classes.php';
+$_SERVER['HTTP_HOST'] !== 'localhost' ? error_reporting(0) : error_reporting(E_ALL);
 
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST');
@@ -18,7 +20,7 @@ $_POST = json_decode(file_get_contents('php://input'), true);
 
 $config = new Config();
 
-if (!isset($_GET['filter']) || !isset($_GET['base'])) {
+if (has_value($_GET['filter'], $_GET['base']) === false) {
     # code...
     echo json_encode(['error' => true, 'message' => 'bad Url read doc @ ']);
     exit;
@@ -29,15 +31,17 @@ $filter = filter_var($_GET['filter'], FILTER_SANITIZE_STRING);
 $keyword = @filter_var($_GET['keyword'], FILTER_SANITIZE_STRING);
 switch ($_GET['base']) {
     case 'list':
-        # code...
-        
         $api = new getList($filter, $keyword);
+        $api->setList();
+        $api_array = $api->get_data();
+        $api->endrequest($api_array);
+
     break;
     case 'product':
-        # code...
-        
-        $api = new Dbh();
         $api = new getProduct($filter, $keyword);
+        $api->setList();
+        $api_array = $api->get_data();
+        $api->endrequest($api_array);
     break;
     case 'rate':
         $api = new Rate($filter, $keyword);
@@ -53,7 +57,7 @@ switch ($_GET['base']) {
                                 ], 500);
              
         endif;
-        if(!isset($_POST['name']) ||  !isset($_POST['email']) || !isset($_POST['password']) || !isset($_POST['phone'])):
+        if(!has_value($_POST['name'], $_POST['email'], $_POST['password'], $_POST['phone'])):
             Dbh::endrequest(array(
                 'message' => "Some Param are Missing",
                 'param_given' => $_POST,
@@ -115,13 +119,13 @@ switch ($_GET['base']) {
                                 ], 500);
              
         endif;
-        if(!isset($_POST['username']) ||   !isset($_POST['password'])):
+        if(!has_value($_POST['username'], $_POST['password'])):
             Dbh::endrequest(array(
                 'message' => "Some Param are Missing",
                 'param_given' => $_POST,
                 'error' => true,
-                'param_needed' => ['username' => (isset($_POST['username']))  ,
-                                   'password' => (isset($_POST['password']))
+                'param_needed' => ['username' => (has_value($_POST['username']))  ,
+                                   'password' => (has_value($_POST['password']))
                                  ]
                                 )
                             );
@@ -147,17 +151,17 @@ switch ($_GET['base']) {
         
         // $data = $_POST['login_detail']['data'];
         // var_dump($_POST['login_detail']->message); 
-        if(!isset($_POST['login_detail']) ||  !isset($_POST['cart']) ||  !isset($_POST['payment_method']) || !isset($_POST['login_detail']->login_token->token) || !isset($_POST['login_detail']->data->email) ):
+        if(!has_value($_POST['login_detail'], $_POST['cart'], $_POST['payment_method'], $_POST['login_detail']->login_token->token, $_POST['login_detail']->data->email)):
             Dbh::endrequest(array(
                 'message' => "Some Param are Missing",
                 'param_given' => $_POST,
                 'param_give' => $_POST['cart']['items'][1],
                 'error' => true,
-                'param_needed' => ['login_detail' => (isset($_POST['login_detail']))  ,
-                                  'cart' => (isset($_POST['cart'])),
-                                  'jwt' => (isset($_POST['login_detail']->login_token->token)),
-                                  'email' => (isset($_POST['login_detail']->data->email)),
-                                  'payment_method' => (isset($_POST['payment_method'])),
+                'param_needed' => ['login_detail' => (has_value($_POST['login_detail']))  ,
+                                  'cart' => (has_value($_POST['cart'])),
+                                  'jwt' => (has_value($_POST['login_detail']->login_token->token)),
+                                  'email' => (has_value($_POST['login_detail']->data->email)),
+                                  'payment_method' => (has_value($_POST['payment_method'])),
                                    
                                  ]
                                 )
@@ -221,14 +225,15 @@ switch ($_GET['base']) {
 
     break;
     default:
-    Dbh::endrequest([
-        'message' => 'bad request',
-        'error' => true,
-        'data_sent' => $_REQUEST
-    ], 400);
-    // header('', true, 400);
-        # code...c
-        break;
+        Dbh::endrequest([
+            'message' => 'bad request',
+            'error' => true,
+            'time' => getdate(time()),
+            'time_zone' => gmstrftime("%a %e %b %Y %X ",time()),
+            'data_sent' => $_REQUEST
+        ], 400);
+    
+    break;
 }
 
 
