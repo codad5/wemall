@@ -40,9 +40,9 @@ use \Api\Payment;
 
         /**
          * This is where all the payment info is been stored. <br/>
-         * @param String $payment_details
+         * @param Array $payment_details
          */
-        public String $payment_details;
+        public Array $payment_details;
 
         /**
          * This is the JWT token assigned during login.
