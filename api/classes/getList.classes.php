@@ -71,6 +71,12 @@ Class getList extends Dbh{
                 case 'gender' :
                     $this->list = $this->getGender();
                 break;
+                case 'search':
+                    $this->list = $this->search();
+                break;
+                case 'price':
+                    $this->list = $this->getPrice();
+                break;
                 default:
                     $this->message = 'Invalid Action';
                     $this->error = true;
@@ -183,6 +189,91 @@ Class getList extends Dbh{
             else{
                     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     $this->message = "Product with Gender ".$this->keyword;
+                    $this->error = false;
+                    return $data;
+                    // return  ['message' => "Product with Gender ".$keyword, 'data' => $data];
+                    // return $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    // return false;
+            }
+        }
+        /**
+         * This is a method used to search query of a particular keyword 
+         * 
+         * @return Array
+         */
+        public function search( ...$extra){
+                $keyword = '%'.$this->keyword."%";
+                $sql = "SELECT * FROM products where product_gender LIKE ? OR product_name LIKE ? OR product_category LIKE ? OR product_price LIKE ? AND active_status != ?;";
+                $stmt = $this->connect()->prepare($sql);
+                if(!$stmt->execute(array($keyword,$keyword, $keyword, $keyword, "deleted"))){
+                    $stmt = null;
+                    $this->message = "Request Error";
+                    $this->error = true;
+                    return [];
+
+                }
+
+            
+            
+            // return $stmt->rowCount();
+            if($stmt->rowCount() < 1){
+                    // echo $stmt->rowCount();
+                    $this->message = "No product tied to such Search query >> ".$this->keyword;
+                    $this->error = false;
+                    return [];
+                    // return  ['message' => "No product tied to such Gender", 'data' => []]; #$stmt->rowCount();
+                    
+            }
+            else{
+                    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    $this->message = "Product with Gender ".$this->keyword;
+                    $this->error = false;
+                    return $data;
+                    // return  ['message' => "Product with Gender ".$keyword, 'data' => $data];
+                    // return $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    // return false;
+            }
+        }
+        /**
+         * This is a method used to price query of a particular keyword 
+         * 
+         * @return Array
+         */
+        public function getPrice( ...$extra){
+
+                $keyword = $this->keyword;
+                $equator = "=";
+                if(strpos($keyword, '>') == 0):
+                    $keyword = explode('>', $keyword)[0];
+                    $equator = ">";
+                elseif(strpos('<', $keyword) == 0):
+                    $keyword = explode('<', $keyword)[0];
+                    $equator = "<";
+                endif;
+                $sql = "SELECT * FROM products where product_price ".$equator." ? AND active_status != ?;";
+                $stmt = $this->connect()->prepare($sql);
+                if(!$stmt->execute(array($keyword, "deleted"))){
+                    $stmt = null;
+                    $this->message = "Request Error";
+                    $this->error = true;
+                    return [];
+
+                }
+
+            
+            
+            // return $stmt->rowCount();
+            if($stmt->rowCount() < 1){
+                    // echo $stmt->rowCount();
+                    $this->message = "No product tied to such Search query >> ".$keyword;
+                    $this->error = false;
+                    return [];
+                    // return  ['message' => "No product tied to such Gender", 'data' => []]; #$stmt->rowCount();
+                    
+            }
+            else{
+                    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    $this->message = "Product with Gender ".$keyword." ".implode(" ", explode('<', $this->keyword));
                     $this->error = false;
                     return $data;
                     // return  ['message' => "Product with Gender ".$keyword, 'data' => $data];

@@ -50,6 +50,8 @@ use \Api\Payment;
          */
         protected String $JWT_token;
 
+        public Array $productList;
+
         /**
          * The Constructor any Class With implementation needAuth needs to have a $token
          * 
@@ -111,7 +113,11 @@ use \Api\Payment;
          * else return `true` 
          * 
          */
-        public function registerProduct($product_detail) {
+        public function registerProduct($product_detail){
+            $this->productList[] = $product_detail;
+            return true;
+        }
+        public function saveProduct($product_detail) {
             try{
 
                 $product = $this->get_product('detail',$product_detail['data']['product_id']);
@@ -153,6 +159,12 @@ use \Api\Payment;
             catch(Exception $e){
                 return ['error' => true ,"message" => $e->getMessage()];
             }
+            foreach ($this->productList as $products):
+                if($this->saveProduct($products) !== true):
+                    return ['error' => true, 'message' => ' error with Product'.$products['data']['product_id']];
+
+                endif;
+            endforeach;
             $sql = "INSERT INTO orders (email, quantity,  total_price, order_id,  payment_id) VALUES(?,?,?,?,?)";
             $stmt = $this->connect()->prepare($sql);
                 if(!$stmt->execute(array($this->email, $this->order_quantity,$this->order_price, $this->order_id, $this->payment_method->refrence))){

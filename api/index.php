@@ -175,7 +175,14 @@ switch ($_GET['base']) {
                 $payment_method = new Payment\PayStack($_POST['login_detail']->data->email);
             break;
             default:
-                $payment_method = new Payment\PayStack($_POST['login_detail']->data->email);
+                Dbh::endrequest([
+                    'message' => 'invalid payment method => '.$payment_method,
+                    'error' => true,
+                    'paran_given' => $_POST,
+                    'valid_payment_type'=> [
+                                    'payStack'
+                    ]
+                ]);
             break;
         endswitch;
         $api_array = [];
