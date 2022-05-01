@@ -73,7 +73,7 @@ use \Api\Payment;
             $this->email = $email;
             $this->order_quantity = $order_quantity;
             $this->JWT_token = $token;
-            $this->order_id = uniqid('', true);
+            $this->order_id = md5(uniqid('', true), true);
             $this->payment_method = $payment_method;
             
             

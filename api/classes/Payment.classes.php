@@ -46,7 +46,7 @@ class PayStack implements Payment_method{
             $response = json_decode($response, true);
             // var_dump($response);
             if($response['status']){
-
+                
                 $this->refrence = $response['data']['reference'];
                 return $response;
             }

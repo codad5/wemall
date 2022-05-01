@@ -242,14 +242,21 @@ Class getList extends Dbh{
         public function getPrice( ...$extra){
 
                 $keyword = $this->keyword;
+                // var_dump(explode(">",$keyword));
                 $equator = "=";
-                if(strpos($keyword, '>') == 0):
-                    $keyword = explode('>', $keyword)[0];
+                // var_dump($this->keyword);
+                if(strpos($keyword, '>') === 0):
+                    $keyword = explode('>', $keyword)[1];
                     $equator = ">";
-                elseif(strpos('<', $keyword) == 0):
-                    $keyword = explode('<', $keyword)[0];
+                elseif(strpos('!>', $keyword) === 0):
+                    $keyword = explode('<', $keyword)[1];
                     $equator = "<";
+                elseif(strpos('!', $keyword) === 0):
+                    $keyword = explode('!', $keyword)[1];
+                    $equator = "!=";
                 endif;
+                var_dump($equator."".$keyword);
+                // $sql = "SELECT * FROM products where product_price != ? AND active_status != ?;";
                 $sql = "SELECT * FROM products where product_price ".$equator." ? AND active_status != ?;";
                 $stmt = $this->connect()->prepare($sql);
                 if(!$stmt->execute(array($keyword, "deleted"))){
@@ -295,7 +302,7 @@ Class getList extends Dbh{
             return  [
                 'message' => $this->message,
                 'error' => $this->error,
-                'datasent' => $this->datasent,
+                'datasent' => $_GET,
                 'data' => $dataneed,
                 'extra' => $extra
             ];
