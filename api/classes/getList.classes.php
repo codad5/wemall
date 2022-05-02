@@ -244,19 +244,34 @@ Class getList extends Dbh{
                 $keyword = $this->keyword;
                 // var_dump(explode(">",$keyword));
                 $equator = "=";
+                $equatorSpelling = "equal to";
                 // var_dump($this->keyword);
+
+                // This is to get the operator passed in to the ur;
+                // if `>` is found in the url the sql operator is gonna be (>) greater than
+                // if `!>` is found in the url the sql operator is gonna be (<) lesser than
+                // if `!` is found in the url the sql operator is gonna be (!=) not equal to 
+                // else it means equal to 
+                
                 if(strpos($keyword, '>') === 0):
                     $keyword = explode('>', $keyword)[1];
                     $equator = ">";
-                elseif(strpos('!>', $keyword) === 0):
-                    $keyword = explode('<', $keyword)[1];
+                    $equatorSpelling = "greater than";
+                elseif(strpos($keyword, '!>') === 0):
+                    $keyword = explode('!>', $keyword)[1];
                     $equator = "<";
-                elseif(strpos('!', $keyword) === 0):
+                    $equatorSpelling = "lesser than";
+                elseif(strpos($keyword, '!') === 0):
                     $keyword = explode('!', $keyword)[1];
+                    var_dump($keyword);
                     $equator = "!=";
+                    $equatorSpelling = "not equal to";
+                else:
+                    
                 endif;
-                var_dump($equator."".$keyword);
+                // var_dump($equator."~~~~~~~~".$keyword);
                 // $sql = "SELECT * FROM products where product_price != ? AND active_status != ?;";
+                
                 $sql = "SELECT * FROM products where product_price ".$equator." ? AND active_status != ?;";
                 $stmt = $this->connect()->prepare($sql);
                 if(!$stmt->execute(array($keyword, "deleted"))){
@@ -272,7 +287,7 @@ Class getList extends Dbh{
             // return $stmt->rowCount();
             if($stmt->rowCount() < 1){
                     // echo $stmt->rowCount();
-                    $this->message = "No product tied to such Search query >> ".$keyword;
+                    $this->message = "No Product with price ".$equatorSpelling." ".$keyword;
                     $this->error = false;
                     return [];
                     // return  ['message' => "No product tied to such Gender", 'data' => []]; #$stmt->rowCount();
@@ -280,7 +295,7 @@ Class getList extends Dbh{
             }
             else{
                     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                    $this->message = "Product with Gender ".$keyword." ".implode(" ", explode('<', $this->keyword));
+                    $this->message = "Product with price ".$equatorSpelling." ".$keyword;
                     $this->error = false;
                     return $data;
                     // return  ['message' => "Product with Gender ".$keyword, 'data' => $data];

@@ -111,8 +111,23 @@
                     # code...
                     
                     break;
+                case 'details':
+                    $data = $data[0];
+                    # code...
+                    
+                    break;
                 case 'category':
                     $data = $data[0]['product_category'];
+
+                    break;
+                case 'discount':
+                    $data = ["discount"=> $data[0]['product_discount'], "discount_method"=>$data[0]['discount_method'],"original_price" => $data[0]['product_price'], "sell_price" => $this->gen_sell_price($data[0]['product_price'],$data[0]['product_discount'],$data[0]['discount_method'] )['validate']];
+                    // $data = $data[0]['discount_method'];
+
+                    break;
+                case 'price':
+                    $data = ["discount"=> $data[0]['product_discount'], "discount_method"=>$data[0]['discount_method'],"original_price" => $data[0]['product_price'], "sell_price" => $this->gen_sell_price($data[0]['product_price'],$data[0]['product_discount'],$data[0]['discount_method'] )['validate']];
+                    // $data = $data[0]['discount_method'];
 
                     break;
                     
@@ -120,7 +135,7 @@
                     
                     $data = @$data[0]['product_'.$filter];
                 
-                    if(empty($data) || $data==null || !$data){
+                    if(!has_value($data)){
                         $data = @$data[0][$filter];
 
                     }

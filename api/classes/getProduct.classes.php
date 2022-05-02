@@ -23,13 +23,13 @@
         {
             try{
                 $this->list = $this->get_product($this->filter, $this->keyword);
-                
-                if(count($this->list) > 0):
+                // var_dump($this->list);
+                if(has_value($this->list)):
 
-                    $this->message = "Product with item id ".$this->keyword;
+                    $this->message = $this->filter." for Product with item id ".$this->keyword;
                     $this->error = false;
                 else:
-                    $this->message = "No Product with item id ".$this->keyword;
+                    $this->message = "No ".$this->filter." for Product with item id ".$this->keyword;
                     $this->error = false;
                 endif;
 
