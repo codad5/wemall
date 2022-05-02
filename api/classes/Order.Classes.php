@@ -114,6 +114,10 @@ use \Api\Payment;
          * 
          */
         public function registerProduct($product_detail){
+            $product = $this->get_product('detail',$product_detail['data']['product_id']);
+            $quantity = $product_detail['quantity'];
+            $this->order_price +=  (int) ($product['sell_price'] * $quantity);
+
             $this->productList[] = $product_detail;
             return true;
         }
@@ -140,7 +144,6 @@ use \Api\Payment;
                $result['message'] = $e->getMessage();
                 return $result;
             }
-            $this->order_price +=  (int) ($product['sell_price'] * $quantity);
             return true;
 
         }
@@ -154,6 +157,7 @@ use \Api\Payment;
          * 
          */
         public function implementOrder(){
+            
             try{
                 $this->payment_details = $this->payment_method->init($this->order_price);}
             catch(Exception $e){
@@ -165,6 +169,7 @@ use \Api\Payment;
 
                 endif;
             endforeach;
+            
             $sql = "INSERT INTO orders (email, quantity,  total_price, order_id,  payment_id) VALUES(?,?,?,?,?)";
             $stmt = $this->connect()->prepare($sql);
                 if(!$stmt->execute(array($this->email, $this->order_quantity,$this->order_price, $this->order_id, $this->payment_method->refrence))){

@@ -15,6 +15,7 @@ class PayStack implements Payment_method{
         
     }
     public function init($price){
+        // echo $price;
         $this->price = 100 * (int) $price;
         $url = $this->url.'initialize';
         $fields = [
@@ -38,7 +39,8 @@ class PayStack implements Payment_method{
         $response = curl_exec($ch);
         $err = curl_error($ch);
         curl_close($ch);
-        
+        // echo $response."hello > ".$this->price;
+        // exit;
         if ($err) {
             throw new \Exception("Error Connecting to payStack");
             return false;
@@ -46,7 +48,7 @@ class PayStack implements Payment_method{
             $response = json_decode($response, true);
             // var_dump($response);
             if($response['status']){
-                
+
                 $this->refrence = $response['data']['reference'];
                 return $response;
             }

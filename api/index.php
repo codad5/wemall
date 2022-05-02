@@ -138,7 +138,7 @@ switch ($_GET['base']) {
         $api->endrequest($api_array);
     break;
     case 'order':
-        
+        // var_dump(json_encode($_POST, true));
         if($_SERVER['REQUEST_METHOD'] == 'GET'):
               Dbh::endrequest(["error" => true,
                                'message' => 'This is a invalid request type ',

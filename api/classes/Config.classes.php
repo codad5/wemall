@@ -11,6 +11,7 @@ Class Config{
     protected $api_key = 'wemall';
 
     public static function endrequest(Array $api_array,int  $headerresponse = 200,...$extraa){
+            http_response_code($headerresponse);
             header('Content-Type: application/json', $headerresponse);
             echo json_encode($api_array);
             exit;
