@@ -102,7 +102,7 @@
 
         
         
-    $product = $admin->get_product($_POST['product_id']);
+    $product = $admin->get_products($_POST['product_id']);
         
         try{
             if($product == false){

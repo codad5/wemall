@@ -263,7 +263,7 @@ Class getList extends Dbh{
                     $equatorSpelling = "lesser than";
                 elseif(strpos($keyword, '!') === 0):
                     $keyword = explode('!', $keyword)[1];
-                    var_dump($keyword);
+                    // var_dump($keyword);
                     $equator = "!=";
                     $equatorSpelling = "not equal to";
                 else:

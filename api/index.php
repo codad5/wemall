@@ -3,8 +3,12 @@ require_once $_SERVER['DOCUMENT_ROOT']."/wemall/vendor/autoload.php";
 require_once 'includes/class.autoload.php';
 require_once 'includes/functions.inc.php';
 // require_once 'Dbh.classes.php';
+
+// this is to disable error report on deployment mode
 $_SERVER['HTTP_HOST'] !== 'localhost' ? error_reporting(0) : error_reporting(E_ALL);
 
+
+// this are all the CORS policy allowed 
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST');
 header('Access-Control-Allow-Headers: X-Requested-With');
@@ -14,7 +18,9 @@ header('Access-Control-Allow-Headers: x-rapidapi-key, x-rapidapi-host');
 header('Access-Control-Allow-Headers: content-type');
 header('Content-Type: application/json');
 
+// allowing namespace for all the payment classes
 use \Api\Payment;
+
 // use \Firebase\JWT\Key;
 $_POST = json_decode(file_get_contents('php://input'), true);
 
@@ -119,13 +125,13 @@ switch ($_GET['base']) {
                                 ], 500);
              
         endif;
-        if(!has_value($_POST['username'], $_POST['password'])):
+        if(!has_value(@$_POST['username'], @$_POST['password'])):
             Dbh::endrequest(array(
                 'message' => "Some Param are Missing",
                 'param_given' => $_POST,
                 'error' => true,
-                'param_needed' => ['username' => (has_value($_POST['username']))  ,
-                                   'password' => (has_value($_POST['password']))
+                'param_needed' => ['username' => (has_value(@$_POST['username']))  ,
+                                   'password' => (has_value(@$_POST['password']))
                                  ]
                                 )
                             );

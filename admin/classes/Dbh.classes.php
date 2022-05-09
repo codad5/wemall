@@ -94,6 +94,9 @@
     }
     
     
+    public function getOrders(){
+        $sql = 'SELECT * FROM orders JOIN  WHERE';
+    }
     public function getProduct($refrence = null, $bol = false){
         $additional_sql = "WHERE active_status <> 'deleted' ;";
         if($bol == true){

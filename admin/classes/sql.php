@@ -28,7 +28,7 @@ CREATE TABLE ordersItems (
     quantity int(11) NOT NULL,
     sales_price int(11) NOT NULL,
     total_price int(11) NOT NULL,
-    order_id boolean NOT NULL,
+    order_id varchar(300) NOT NULL,
     datejoined datetime DEFAULT CURRENT_TIMESTAMP
 
 );
@@ -37,7 +37,7 @@ CREATE TABLE orders (
     email varchar(300) NOT NULL,
     quantity int(11) NOT NULL,
     total_price int(11) NOT NULL,
-    order_id boolean NOT NULL,
+    order_id varchar(300) NOT NULL,
     payment_id varchar(300) NOT NULL,
     verified boolean NOT NULL,
     delivered boolean NOT NULL,

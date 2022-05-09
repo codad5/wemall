@@ -54,7 +54,7 @@
          }
      }
 
-     public function get_product($product_id){
+     public function get_products($product_id){
          $sql = "SELECT * FROM products WHERE product_id = ? LIMIT 1";
          $stmt = $this->connect()->prepare($sql);
          $stmt_status = $stmt->execute([$product_id]);
@@ -71,16 +71,14 @@
 
      }
 
-     public function product_changes(){
-
-     }
+     
 
     public function editProduct(Array $edit_array,  $product_id){
-        if($this->get_product($product_id) == false){
+        if($this->get_products($product_id) == false){
             return false;
         }
         
-        $total_delivery = $this->get_product($product_id)[0]['total_delivery'];
+        $total_delivery = $this->get_products($product_id)[0]['total_delivery'];
         $new_quantity_left = $edit_array['edit_quantity'];
         $new_quantity_added = $new_quantity_left - $total_delivery;
         $edit_array['edit_quantity'] = $new_quantity_added;

@@ -37,7 +37,7 @@ $cose = 200;
 // var_dump(stat('header.php'));
 var_dump(scandir('../'));
 echo "\n \n";
-// var_dump(stream_socket_server('http://localhost:8000'));
+// var_dump(stream_socket_server('http:/ /localhost:8000'));
 syslog(LOG_NOTICE, "'LOG_INFO'");
 system("PHP -S localhost:8000 -f ../wemall");
 // sys
