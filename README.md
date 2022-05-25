@@ -1,28 +1,36 @@
-####how to use api
-
-the baseurl = https://wemall.sanctablog.com/api/
-#To get list of all  the product
-list/<what-list-is-based-on>/<list-filter>
-
--- list/category/all
-    this will return all product
--- list/category/footwear
-    this will return all product with catergory of footwear
--- list/gender/all
-    get all product
--- list/gender/male
-    get all male product
-
-#to get details of a specific item
-product/<what-you-want-to-get>/<product-id>
-
--- product/details/<product-id>
-    this will get all detail the product with the tallying product-id
--- product/price/<product-id>
-    this will return the price of the product with the tallying product-id
--- product/gender/<product-id>
-    this will return the gender of the product with the tallying product-id
+# Using Wemall 
 
 
-before you can make order with this api you need to signup the user that which to make the purchase
+## the baseurl
+>   https://wemall.sanctablog.com/api/
+
+# To get list of all  the product
+> #### Sample URL
+> `https://wemall.sanctablog.com/api/list/search-base/search-param`
+> #### USE CASE
+> ###### To get list of all items 
+> https://wemall.sanctablog.com/api/list/category/all
+> ###### To get list of product with category of cheap
+> https://wemall.sanctablog.com/api/list/category/cheap
+> ###### To get list of all gender type 
+> > https://wemall.sanctablog.com/api/list/gender/all
+> ###### or
+> > https://wemall.sanctablog.com/api/list/gender/unisex
+> ###### To get list of price Lesser than 10,000
+> https://wemall.sanctablog.com/api/list/price/!>10000
+> ###### To get list of price equal to 1000
+> https://wemall.sanctablog.com/api/list/price/1000
+> ###### Table for using getting list from api
+> | Search base | Search keyword |
+> |:---| :---: |
+> | Category | any |
+> | Gender | all, unisex, male, female |
+> | Price | Greater `>`, lesser `!>` , equal |
+> ######
+> ###### 
+> [
+
+# Todo
+-[] Document Payment Api usage
+-[] Create Auth for users
 
