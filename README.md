@@ -31,6 +31,7 @@
 > 
 
 # Todo
+- [ ] Document Single Product Search Api 
 - [ ] Document Payment Api usage
 - [ ] Create Auth for users
 
