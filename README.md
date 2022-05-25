@@ -31,6 +31,6 @@
 > [
 
 # Todo
--[] Document Payment Api usage
--[] Create Auth for users
+- [ ] Document Payment Api usage
+- [ ] Create Auth for users
 
