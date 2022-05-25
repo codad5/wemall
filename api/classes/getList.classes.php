@@ -165,9 +165,9 @@ Class getList extends Dbh{
                 
             }
             else{
-                $sql = "SELECT * FROM products where product_gender in (?, ?) AND active_status != ?;";
+                $sql = "SELECT * FROM products where active_status != ?;";
                 $stmt = $this->connect()->prepare($sql);
-                if(!$stmt->execute(array("unisex", $this->keyword, "deleted"))){
+                if(!$stmt->execute(array("deleted"))){
                     $stmt = null;
                     $this->message = "Request Error";
                     $this->error = true;
