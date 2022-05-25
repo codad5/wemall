@@ -28,7 +28,7 @@
 > | Price | Greater `>`, lesser `!>` , equal |
 > ######
 > ###### 
-> [
+> 
 
 # Todo
 - [ ] Document Payment Api usage
