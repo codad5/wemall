@@ -5,9 +5,18 @@ CREATE TABLE admins (
     passwords varchar(300) NOT NULL,
     addedby varchar(300) NOT NULL,
     verified boolean NOT NULL,
+    company_id varchar(300) NOT NULL,
     datejoined datetime NOT NULL
 
 );
+
+CREATE TABLE company {
+    company_id int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    company_unique varchar(300) NOT NULL, 
+    company_name varchar(300) NOT NULL,
+    
+
+}
 CREATE TABLE products (
 	product_id_private int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,
 	product_id varchar(255) NOT NULL,
